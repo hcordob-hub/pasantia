@@ -25,18 +25,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* Transiciones generales */
         body { transition: background-color 0.3s, color 0.3s; }
-        
-        /* Animación Fade In Inicial (Hero) */
         .fade-in { animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Animaciones Scroll (Intersection Observer) */
         .scroll-hide { opacity: 0; transform: translateY(30px); transition: all 0.6s ease-out; }
         .scroll-show { opacity: 1; transform: translateY(0); }
 
-        /* Efecto Pulse para el CTA */
         .cta-pulse { animation: pulse 2s infinite; }
         @keyframes pulse {
             0% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0.4); }
@@ -44,7 +39,6 @@
             100% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0); }
         }
 
-        /* Skeleton Loader */
         .skeleton {
             background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
             background-size: 200% 100%;
@@ -56,13 +50,11 @@
         }
         @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-        /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 4px; }
         .dark ::-webkit-scrollbar-thumb { background-color: #475569; }
 
-        /* Custom Radio Buttons */
         input[type="radio"] { accent-color: #1d4ed8; transform: scale(1.2); transition: transform 0.2s; }
         input[type="radio"]:hover { transform: scale(1.4); }
     </style>
@@ -72,8 +64,6 @@
     <!-- NAVBAR -->
     <header class="fixed w-full top-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-sm z-50 transition-all duration-300">
         <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between relative">
-            
-            <!-- Logo / Título -->
             <div class="flex items-center gap-3">
                 <i class="fas fa-microchip text-primary text-2xl hover:rotate-12 transition-transform cursor-pointer"></i>
                 <span class="font-bold text-lg md:text-xl tracking-tight hidden sm:block">
@@ -84,25 +74,20 @@
                 </span>
             </div>
             
-            <!-- Iconos Desktop -->
             <div class="hidden md:flex items-center gap-6">
-                <!-- Selector de Idioma -->
                 <button id="btn-lang" class="hover:text-primary hover:scale-110 transition-all duration-200" title="Cambiar Idioma">
                     <i class="fas fa-language text-xl"></i> <span class="text-sm font-semibold ml-1">ES</span>
                 </button>
-                <!-- Modo Oscuro -->
                 <button id="btn-theme" class="hover:text-primary hover:scale-110 transition-all duration-200" title="Modo Oscuro/Claro">
                     <i class="fas fa-moon text-xl" id="theme-icon"></i>
                 </button>
             </div>
 
-            <!-- Menú Hamburguesa (Móvil) -->
             <button id="btn-mobile-menu" class="md:hidden text-2xl hover:text-primary transition-colors focus:outline-none">
                 <i class="fas fa-bars"></i>
             </button>
         </div>
 
-        <!-- Menú Desplegable Móvil -->
         <div id="mobile-menu" class="hidden absolute w-full bg-white dark:bg-gray-900 shadow-lg border-t border-gray-100 dark:border-gray-800 md:hidden flex-col">
             <button id="btn-lang-mob" class="flex items-center gap-3 p-4 border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
                 <i class="fas fa-language text-xl text-primary"></i> Cambiar a Inglés (EN)
@@ -113,7 +98,7 @@
         </div>
     </header>
 
-    <!-- NOTIFICACIÓN TOAST (Para mensajes como cambio de idioma) -->
+    <!-- NOTIFICACIÓN TOAST -->
     <div id="toast" class="fixed top-20 right-4 transform translate-x-full opacity-0 transition-all duration-300 bg-gray-800 text-white px-4 py-3 rounded shadow-lg z-50 flex items-center gap-3">
         <i class="fas fa-info-circle text-blue-400"></i>
         <span id="toast-msg">Mensaje</span>
@@ -122,7 +107,7 @@
     <!-- MAIN CONTAINER -->
     <main class="pt-24 pb-12 px-4 max-w-5xl mx-auto min-h-screen">
         
-        <!-- VISTA 1: HERO / LANDING PAGE -->
+        <!-- VISTA 1: HERO -->
         <section id="view-hero" class="text-center py-20 fade-in hidden">
             <div class="inline-block p-4 rounded-full bg-blue-100 dark:bg-blue-900/30 text-primary mb-6 hover:scale-110 transition-transform duration-300 cursor-default">
                 <i class="fas fa-robot text-5xl"></i>
@@ -142,7 +127,6 @@
         <section id="view-form" class="fade-in hidden">
             <div class="bg-white dark:bg-darkcard rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-800">
                 
-                <!-- Encabezado del formulario -->
                 <div class="bg-primary p-8 text-white text-center relative overflow-hidden">
                     <div class="absolute -top-10 -right-10 opacity-20"><i class="fas fa-microchip text-9xl"></i></div>
                     <h2 class="text-2xl md:text-3xl font-bold relative z-10">Tarjeta de Evaluación Pasantía 2026</h2>
@@ -151,33 +135,48 @@
 
                 <form id="evaluation-form" class="p-6 md:p-8 space-y-8">
                     
-                    <!-- Contenedor de Alertas (Validación/Éxito) -->
                     <div id="form-alert" class="hidden p-4 rounded-lg font-medium transition-all duration-300"></div>
 
                     <!-- Información General -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 scroll-hide">
-                        <!-- Estudiante (Firebase) -->
+                        <!-- Estudiante con buscador predictivo / autocompletado -->
                         <div class="col-span-1 md:col-span-2 group">
-                            <label class="block text-sm font-semibold mb-2 group-focus-within:text-primary transition-colors">Nombre del Estudiante <span class="text-red-500">*</span></label>
+                            <label class="block text-sm font-semibold mb-2 group-focus-within:text-primary transition-colors">
+                                Buscar Estudiante (Escriba nombres o apellidos) <span class="text-red-500">*</span>
+                            </label>
                             <div id="estudiante-skeleton" class="skeleton h-11 w-full rounded-lg"></div>
-                            <select id="estudiante" required class="hidden w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-800 dark:border-gray-600 outline-none transition-all shadow-sm">
-                                <option value="" disabled selected>Cargando lista desde la base de datos...</option>
+                            
+                            <div id="estudiante-container" class="relative hidden">
+                                <input type="text" id="estudiante-search" list="lista-estudiantes" placeholder="Comience a escribir para filtrar por nombre..." autocomplete="off" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-800 dark:border-gray-600 outline-none transition-all shadow-sm">
+                                <datalist id="lista-estudiantes"></datalist>
+                                <input type="hidden" id="estudiante-id" required>
+                                <p id="estudiante-aviso" class="text-xs text-gray-500 mt-1">Solo se muestran estudiantes pendientes de evaluación.</p>
+                            </div>
+                        </div>
+
+                        <!-- Selector de Docente -->
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Docente de la Especialidad <span class="text-red-500">*</span></label>
+                            <select id="docente" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary dark:bg-gray-800 dark:border-gray-600 outline-none transition-all shadow-sm font-medium">
+                                <option value="Lic. Herberth Córdoba Álvarez">Lic. Herberth Córdoba Álvarez</option>
+                                <option value="Lic. Joel Olivares Siles">Lic. Joel Olivares Siles</option>
                             </select>
                         </div>
 
                         <div>
-                            <label class="block text-sm font-semibold mb-2 text-gray-500">Docente de la Especialidad</label>
-                            <input type="text" value="Lic. Herberth Córdoba Álvarez" readonly class="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-800/50 border-none text-gray-500 cursor-not-allowed shadow-inner font-medium">
+                            <label class="block text-sm font-semibold mb-2 text-gray-500">Período</label>
+                            <input type="text" id="periodo" value="2026" readonly class="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-800/50 border-none text-gray-500 cursor-not-allowed shadow-inner font-medium">
                         </div>
 
                         <div>
-                            <label class="block text-sm font-semibold mb-2 text-gray-500">Período</label>
-                            <input type="text" value="2026" readonly class="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-800/50 border-none text-gray-500 cursor-not-allowed shadow-inner font-medium">
-                        </div>
-
-                        <div class="col-span-1 md:col-span-2 group">
                             <label class="block text-sm font-semibold mb-2 group-focus-within:text-primary transition-colors">Empresa Receptora <span class="text-red-500">*</span></label>
                             <input type="text" id="empresa" required placeholder="Ej: Intel Costa Rica, Boston Scientific, etc." class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary dark:bg-gray-800 dark:border-gray-600 outline-none transition-all shadow-sm">
+                        </div>
+
+                        <!-- Encargado en la Empresa -->
+                        <div>
+                            <label class="block text-sm font-semibold mb-2 group-focus-within:text-primary transition-colors">Encargado en la Empresa <span class="text-red-500">*</span></label>
+                            <input type="text" id="encargado-empresa" required placeholder="Nombre del supervisor o encargado" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary dark:bg-gray-800 dark:border-gray-600 outline-none transition-all shadow-sm">
                         </div>
                     </div>
 
@@ -200,7 +199,6 @@
                                     </tr>
                                 </thead>
                                 <tbody id="rubric-container" class="divide-y divide-gray-200 dark:divide-gray-700">
-                                    <!-- Inyección vía JS -->
                                 </tbody>
                             </table>
                         </div>
@@ -236,9 +234,6 @@
 
     <!-- SCRIPTS CORE -->
     <script>
-        /* -----------------------------------------
-           1. SISTEMA DE RUTAS (Modo URL)
-        ----------------------------------------- */
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const isEvalMode = urlParams.get('mode') === 'eval';
@@ -250,8 +245,6 @@
                 document.getElementById('view-hero').classList.remove('hidden');
                 document.getElementById('view-form').classList.add('hidden');
             }
-            
-            // Iniciar Intersection Observer para las animaciones al hacer scroll
             initScrollAnimations();
         });
 
@@ -260,15 +253,12 @@
             window.open(currentUrl + '?mode=eval', '_blank');
         });
 
-        /* -----------------------------------------
-           2. ANIMACIONES SCROLL (Intersection Observer)
-        ----------------------------------------- */
         function initScrollAnimations() {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('scroll-show');
-                        observer.unobserve(entry.target); // Solo anima la primera vez
+                        observer.unobserve(entry.target);
                     }
                 });
             }, { threshold: 0.1 });
@@ -276,10 +266,6 @@
             document.querySelectorAll('.scroll-hide').forEach(el => observer.observe(el));
         }
 
-        /* -----------------------------------------
-           3. UI: TEMA, IDIOMA, MENÚ MÓVIL Y TOAST
-        ----------------------------------------- */
-        // Menú Hamburguesa
         const btnMenu = document.getElementById('btn-mobile-menu');
         const mobileMenu = document.getElementById('mobile-menu');
         btnMenu.addEventListener('click', () => {
@@ -287,20 +273,16 @@
             mobileMenu.classList.toggle('flex');
         });
 
-        // Toggle Theme
         function toggleTheme() {
             document.documentElement.classList.toggle('dark');
             const isDark = document.documentElement.classList.contains('dark');
-            
             document.getElementById('theme-icon').className = isDark ? 'fas fa-sun text-xl' : 'fas fa-moon text-xl';
             document.getElementById('theme-icon-mob').className = isDark ? 'fas fa-sun text-xl text-primary' : 'fas fa-moon text-xl text-primary';
-            
-            mobileMenu.classList.add('hidden'); // Cierra menú móvil si está abierto
+            mobileMenu.classList.add('hidden');
         }
         document.getElementById('btn-theme').addEventListener('click', toggleTheme);
         document.getElementById('btn-theme-mob').addEventListener('click', toggleTheme);
 
-        // Toast de Idioma
         function showToast(msg) {
             const toast = document.getElementById('toast');
             document.getElementById('toast-msg').innerText = msg;
@@ -311,7 +293,6 @@
         document.getElementById('btn-lang').addEventListener('click', () => showToast("Idioma inglés (EN) en desarrollo..."));
         document.getElementById('btn-lang-mob').addEventListener('click', () => showToast("Idioma inglés (EN) en desarrollo..."));
 
-        // Botón Volver Arriba
         window.addEventListener('scroll', () => {
             const btnTop = document.getElementById('btn-top');
             if (window.scrollY > 300) {
@@ -322,9 +303,6 @@
         });
         document.getElementById('btn-top').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-        /* -----------------------------------------
-           4. RÚBRICAS Y CÁLCULO BASE 100
-        ----------------------------------------- */
         const criterios = [
             "Manipulación del equipo propio de la especialidad de electrónica.",
             "Uso adecuado de conceptos y teoría de la especialidad.",
@@ -344,10 +322,8 @@
         const container = document.getElementById('rubric-container');
         criterios.forEach((texto, index) => {
             const tr = document.createElement('tr');
-            // Retardo de animación en cascada para cada fila
             tr.className = "hover:bg-blue-50/50 dark:hover:bg-gray-800/80 transition-colors scroll-hide";
             tr.style.transitionDelay = `${index * 50}ms`;
-            
             tr.innerHTML = `
                 <td class="p-4 text-sm font-medium text-gray-700 dark:text-gray-300 border-b dark:border-gray-700">${index + 1}. ${texto}</td>
                 <td class="p-4 text-center border-b dark:border-gray-700"><input type="radio" name="crit_${index}" value="4" required class="cursor-pointer calc-trigger"></td>
@@ -358,8 +334,7 @@
             container.appendChild(tr);
         });
 
-        // Lógica Matemática
-        const maxPuntosReales = criterios.length * 4; // 13 * 4 = 52
+        const maxPuntosReales = criterios.length * 4;
 
         document.getElementById('evaluation-form').addEventListener('change', (e) => {
             if(e.target.classList.contains('calc-trigger')) {
@@ -368,11 +343,9 @@
                 checkedRadios.forEach(radio => puntosObtenidos += parseInt(radio.value));
 
                 const nota100 = (puntosObtenidos / maxPuntosReales) * 100;
-                
                 const spanNota = document.getElementById('nota-final');
                 spanNota.innerText = nota100.toFixed(2);
                 
-                // Microinteracción de color al cambiar la nota
                 const notaContainer = document.getElementById('nota-container');
                 notaContainer.classList.remove('text-primary');
                 notaContainer.classList.add('text-green-500', 'scale-110');
@@ -390,9 +363,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
         import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
-        // ====================================================================
-        // FIREBASE CONFIG INTEGRADA
-        // ====================================================================
         const firebaseConfig = {
             apiKey: "AIzaSyBG6HHaZ1p8sl0NyRypcoLbY4zv21n8z1M",
             authDomain: "pasantias-ctp-mercedes-norte.firebaseapp.com",
@@ -403,6 +373,8 @@
         };
 
         let db;
+        let estudiantesDisponibles = [];
+
         try {
             const app = initializeApp(firebaseConfig);
             db = getFirestore(app);
@@ -412,23 +384,61 @@
         }
 
         async function cargarEstudiantes() {
-            const select = document.getElementById('estudiante');
+            const datalist = document.getElementById('lista-estudiantes');
+            const searchInput = document.getElementById('estudiante-search');
             const skeleton = document.getElementById('estudiante-skeleton');
+            const container = document.getElementById('estudiante-container');
+            const hiddenId = document.getElementById('estudiante-id');
+
             try {
-                const querySnapshot = await getDocs(collection(db, "estudiantes"));
-                select.innerHTML = '<option value="" disabled selected>Seleccione el estudiante...</option>';
-                querySnapshot.forEach((doc) => {
-                    const opt = document.createElement('option');
-                    opt.value = doc.id;
-                    opt.textContent = doc.data().nombre;
-                    select.appendChild(opt);
+                // 1. Obtener evaluaciones existentes para excluir a los evaluados
+                const evalSnapshot = await getDocs(collection(db, "evaluaciones"));
+                const estudiantesEvaluados = new Set();
+                evalSnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    if (data.estudiante_id) {
+                        estudiantesEvaluados.add(data.estudiante_id);
+                    }
                 });
+
+                // 2. Obtener lista de todos los estudiantes
+                const estudiantesSnapshot = await getDocs(collection(db, "estudiantes"));
+                datalist.innerHTML = '';
+                estudiantesDisponibles = [];
+
+                estudiantesSnapshot.forEach((doc) => {
+                    // Filtrar: Solo agregar si NO ha sido evaluado aún
+                    if (!estudiantesEvaluados.has(doc.id)) {
+                        const info = { id: doc.id, nombre: doc.data().nombre };
+                        estudiantesDisponibles.push(info);
+
+                        const option = document.createElement('option');
+                        option.value = info.nombre;
+                        datalist.appendChild(option);
+                    }
+                });
+
                 skeleton.classList.add('hidden');
-                select.classList.remove('hidden');
+                container.classList.remove('hidden');
+
+                if (estudiantesDisponibles.length === 0) {
+                    searchInput.placeholder = "Todos los estudiantes ya han sido evaluados";
+                    searchInput.disabled = true;
+                }
+
+                // Sincronizar selección de texto con ID oculto
+                searchInput.addEventListener('input', () => {
+                    const matched = estudiantesDisponibles.find(
+                        e => e.nombre.trim().toLowerCase() === searchInput.value.trim().toLowerCase()
+                    );
+                    hiddenId.value = matched ? matched.id : "";
+                });
+
             } catch (error) {
-                select.innerHTML = '<option value="" disabled selected>Error de conexión (Ver consola)</option>';
+                console.error("Error al cargar estudiantes:", error);
                 skeleton.classList.add('hidden');
-                select.classList.remove('hidden');
+                container.classList.remove('hidden');
+                searchInput.placeholder = "Error al conectar con la base de datos";
             }
         }
 
@@ -437,8 +447,19 @@
             e.preventDefault();
             
             const alertBox = document.getElementById('form-alert');
-            
-            // Validación Manual Adicional (por si falla HTML5 req)
+            const searchInput = document.getElementById('estudiante-search');
+            const hiddenId = document.getElementById('estudiante-id');
+
+            // Validar que el estudiante escrito coincida con uno registrado y no evaluado
+            if (!hiddenId.value) {
+                alertBox.className = "p-4 rounded-lg font-medium bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300 block mb-6 animate-pulse";
+                alertBox.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Debe seleccionar un estudiante válido y elegible de la lista desplegable.`;
+                searchInput.focus();
+                window.scrollTo({ top: alertBox.offsetTop - 100, behavior: 'smooth' });
+                return;
+            }
+
+            // Validar rúbricas completas
             const radioGroups = document.querySelectorAll('#rubric-container tr');
             const checkedRadios = document.querySelectorAll('.calc-trigger:checked');
             
@@ -460,13 +481,14 @@
                 rubricas[radio.name] = parseInt(radio.value);
             });
 
-            const estSelect = document.getElementById('estudiante');
+            // Preparación del payload para Firestore
             const datos = {
-                estudiante_id: estSelect.value,
-                estudiante_nombre: estSelect.options[estSelect.selectedIndex].text,
-                empresa: document.getElementById('empresa').value,
-                docente: "Lic. Herberth Córdoba Álvarez",
-                periodo: "2026",
+                estudiante_id: hiddenId.value,
+                estudiante_nombre: searchInput.value.trim(),
+                docente: document.getElementById('docente').value,
+                empresa: document.getElementById('empresa').value.trim(),
+                encargado_empresa: document.getElementById('encargado-empresa').value.trim(),
+                periodo: document.getElementById('periodo').value,
                 nota_final: parseFloat(document.getElementById('nota-final').innerText),
                 detalle_rubricas: rubricas,
                 fecha: new Date().toISOString()
@@ -479,12 +501,18 @@
                 alertBox.innerHTML = `<i class="fas fa-check-circle"></i> ¡Evaluación guardada exitosamente! Nota: ${datos.nota_final}/100`;
                 
                 e.target.reset();
+                hiddenId.value = "";
                 document.getElementById('nota-final').innerText = "0.00";
+                
+                // Actualizar la lista en tiempo real para quitar al estudiante recién evaluado
+                await cargarEstudiantes();
+                
                 window.scrollTo({ top: 0, behavior: 'smooth' });
 
             } catch (error) {
+                console.error("Error al guardar:", error);
                 alertBox.className = "p-4 rounded-lg font-medium bg-red-100 text-red-800 block mb-6";
-                alertBox.innerHTML = `<i class="fas fa-wifi"></i> Error de conexión con Firebase. ¿Configuraste las reglas de lectura/escritura en Firestore?`;
+                alertBox.innerHTML = `<i class="fas fa-wifi"></i> Error de conexión con Firebase. Revisa la consola y las reglas de Firestore.`;
             } finally {
                 btnSubmit.disabled = false;
                 btnSubmit.classList.remove('opacity-75', 'cursor-wait');
